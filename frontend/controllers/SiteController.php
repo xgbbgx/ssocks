@@ -90,10 +90,10 @@ class SiteController extends Controller
         }
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            if(Yii::$app->request->get('url')){
+            if(Yii::$app->request->get('entry')=='oauth'){
                 $sesson=Yii::$app->session;
                 $token=$sesson->get('oauth_token');
-                $redirectUrl=$sesson->get('oauth_redirect_url');
+                $redirectUrl='/site/success';
                 $oauthClientId=$sesson->get('oauth_client_id');
                 if($token && $redirectUrl && $oauthClientId){
                     $uid=Yii::$app->user->getId();
@@ -179,5 +179,8 @@ class SiteController extends Controller
             }
         }
         return UtilHelper::rtnError('20102');
+    }
+    public function actionSuccess(){
+        return $this->render('success');
     }
 }
